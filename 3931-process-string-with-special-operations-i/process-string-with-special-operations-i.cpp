@@ -1,51 +1,28 @@
 class Solution {
 public:
     string processStr(string s) {
-        deque<char> dq;
-        bool rev = false;
+        string res;
+        int n = s.length();
 
-        for (char ch : s) {
+        for (int i = 0; i < n; i++) {
+            char ch = s[i];
 
-            if (ch >= 'a' && ch <= 'z') {
-                if (!rev) dq.push_back(ch);
-                else dq.push_front(ch);
-            }
-
-            else if (ch == '*') {
-                if (!dq.empty()) {
-                    if (!rev) dq.pop_back();
-                    else dq.pop_front();
+            if (ch == '*') {
+                if (res.length() != 0) {
+                    res.pop_back();
                 }
-            }
-
-            else if (ch == '%') {
-                rev = !rev;
-            }
-
+            } 
             else if (ch == '#') {
-                if (dq.empty()) continue;
-
-                deque<char> copy = dq;
-
-                if (!rev) {
-                    for (char c : copy)
-                        dq.push_back(c);
-                } else {
-                    for (auto it = copy.rbegin(); it != copy.rend(); it++)
-                        dq.push_front(*it);
-                }
+                res += res;
+            } 
+            else if (ch == '%') {
+                reverse(res.begin(), res.end());
+            } 
+            else if (ch >= 'a' && ch <= 'z') {
+                res.push_back(ch);
             }
         }
 
-        string ans;
-
-        if (!rev) {
-            for (char c : dq) ans += c;
-        } else {
-            for (auto it = dq.rbegin(); it != dq.rend(); it++)
-                ans += *it;
-        }
-
-        return ans;
+        return res;
     }
 };
